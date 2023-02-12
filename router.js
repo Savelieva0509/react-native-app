@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons'; 
 import { MaterialIcons } from '@expo/vector-icons';
 
-import PostsScreen from "./Screens/mainScreen/nestedScreens/Home";
+import PostsScreen from "./Screens/mainScreen/PostsScreen";
 import ProfileScreen from "./Screens/mainScreen/ProfileScreen";
 import CreateScreen from "./Screens/mainScreen/CreateScreen";
 import RegistrationScreen from "./Screens/auth/RegistrationScreen";
