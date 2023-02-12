@@ -22,15 +22,11 @@ const Home = ({ route, navigation }) => {
         )}
       />
 
+      <Button title="go to map" onPress={() => navigation.navigate("Map")} />
       <Button
-        title="go to map"
-        onPress={() => navigation.navigate("Map")}
-      ></Button>
-      {/* <Button title="go to map" onPress={() => navigation.navigate('Posts', { screen: 'Map' })}></Button> */}
-      <Button
-        title="go to comments"
-        onPress={() => navigation.navigate("Posts", { screen: "Comments" })}
-      ></Button>
+        title="go to Comments"
+        onPress={() => navigation.navigate("Comments")}
+      />
     </View>
   );
 };
