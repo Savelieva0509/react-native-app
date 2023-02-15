@@ -12,8 +12,11 @@ import {
   ImageBackground,
 } from "react-native";
 
+import { authSignUpUser } from "../../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
+
 const initialState = {
-  login: "",
+  nickname: "",
   email: "",
   password: "",
 };
@@ -21,6 +24,9 @@ const initialState = {
 export default function RegistrationScreen({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setstate] = useState(initialState);
+
+  const dispatch = useDispatch();
+
   const [dimensions, setDimensions] = useState(
     Dimensions.get("window").width - 16 * 2
   );
@@ -38,20 +44,11 @@ export default function RegistrationScreen({ navigation }) {
     // };
   }, []);
 
-  // const [nickname, setNickname] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [email, setEmail] = useState("");
-
-  const keaboardHide = () => {
+  const hangleSubmit = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     setstate(initialState);
-    // const data = { login,email, password};
-    // dispatch(authSignUpUser(data))
-    // console.log(data);
-    // setNickname("");
-    // setEmail("");
-    // setPassword("");
+    dispatch(authSignUpUser(state));
   };
 
   const onClose = () => {
@@ -69,7 +66,11 @@ export default function RegistrationScreen({ navigation }) {
           behavior={Platform.OS == "ios" ? "padding" : "height"}
         >
           <View
-            style={{ ...styles.form, paddingBottom: isShowKeyboard ? 20 : 78, width: dimensions}}
+            style={{
+              ...styles.form,
+              paddingBottom: isShowKeyboard ? 20 : 78,
+              width: dimensions,
+            }}
           >
             <View>
               <Text style={styles.header}>Регистрация</Text>
@@ -78,10 +79,10 @@ export default function RegistrationScreen({ navigation }) {
               <TextInput
                 style={styles.input}
                 placeholder="Логин"
-                value={state.login}
+                value={state.nickname}
                 onFocus={() => setIsShowKeyboard(true)}
                 onChangeText={(value) =>
-                  setstate((prevState) => ({ ...prevState, login: value }))
+                  setstate((prevState) => ({ ...prevState, nickname: value }))
                 }
               />
             </View>
@@ -111,15 +112,13 @@ export default function RegistrationScreen({ navigation }) {
             <TouchableOpacity
               style={styles.button}
               activeOpacity={0.8}
-              onPress={keaboardHide}
+              onPress={hangleSubmit}
             >
               <Text style={styles.btnTitle}>Зарегистрироваться</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-                <Text style={styles.link}>
-                  Уже есть аккаунт? Войти
-                </Text>
-              </TouchableOpacity>
+              <Text style={styles.link}>Уже есть аккаунт? Войти</Text>
+            </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
       </ImageBackground>

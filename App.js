@@ -4,6 +4,8 @@ import AppLoading from "expo-app-loading";
 import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useRoute } from './router';
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const loadApplication = async () => {
   await Font.loadAsync({
@@ -15,7 +17,7 @@ const loadApplication = async () => {
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
-  const routing = useRoute({});
+  const routing = useRoute(false);
   if (!isReady) {
     return (
       <AppLoading
@@ -27,9 +29,11 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer style={styles.container}>
+    <Provider store={store}>
+      <NavigationContainer style={styles.container}>
       {routing}
     </NavigationContainer>
+    </Provider>
   );
 }
 
