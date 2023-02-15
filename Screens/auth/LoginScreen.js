@@ -12,6 +12,10 @@ import {
   ImageBackground,
 } from "react-native";
 
+import { useDispatch } from "react-redux";
+
+import { authSignInUser } from "../../redux/auth/authOperations";
+
 const initialState = {
   email: "",
   password: "",
@@ -25,6 +29,8 @@ export default function LoginScreen({ navigation }) {
     Dimensions.get("window").width - 16 * 2
   );
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const onChange = () => {
       const width = Dimensions.get("window").width;
@@ -32,27 +38,26 @@ export default function LoginScreen({ navigation }) {
     };
 
     Dimensions.addEventListener("change", onChange);
-    // return () => {
-    //   Dimensions.removeEventListener("change", onChange);
-    // };
+    return () => {
+      Dimensions.removeEventListener("change", onChange);
+    };
   }, []);
 
   // const [nickname, setNickname] = useState("");
   // const [password, setPassword] = useState("");
   // const [email, setEmail] = useState("");
 
-  const keaboardHide = () => {
+  
+
+  const handleSubmit = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     setstate(initialState);
-    console.log(state);
-    // const data = { login,email, password};
-    // dispatch(authSignUpUser(data))
-    // console.log(data);
-    // setNickname("");
-    // setEmail("");
-    // setPassword("");
+    dispatch(authSignInUser(state))
+  
   };
+
+  
 
   const onClose = () => {
     Keyboard.dismiss();
@@ -104,7 +109,7 @@ export default function LoginScreen({ navigation }) {
             <TouchableOpacity
               style={styles.button}
               activeOpacity={0.8}
-              onPress={keaboardHide}
+              onPress={handleSubmit}
             >
               <Text style={styles.btnTitle}>Войти</Text>
             </TouchableOpacity>
