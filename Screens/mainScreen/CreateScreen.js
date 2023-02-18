@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
   View,
@@ -12,34 +13,67 @@ import {
 import { Camera } from "expo-camera";
 import { Feather } from "@expo/vector-icons";
 import * as Location from "expo-location";
+import db from '../../firebase/config';
 
 const CreateScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
+  const [comment, setComment] = useState("");
+  const [location, setLocation] = useState(null);
+
+  const {userId, nickname} = useSelector((state)=> state.auth)
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+        return;
+      }
+
+      let locationRes = await Location.getCurrentPositionAsync({});
+      setLocation(locationRes);
+    })();
+  }, []);
 
   const takePhoto = async () => {
+    console.log(comment);
+    console.log(location);
     const photo = await camera.takePictureAsync();
-    const location = await Location.getCurrentPositionAsync();
 
     setPhoto(photo.uri);
   };
 
   const sendPhoto = () => {
-    // navigation.navigate("Home", { photo });
-    navigation.navigate("Posts", {
-      screen: "Home",
-      params: photo,
-    });
+    uploadPostToServer();
+    navigation.navigate("Home", { photo });
   };
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestPermissionsAsync();
-      if (status !== "granted") {
-        console.log("Permission to access location was denied");
-      }
-    })();
-  });
+  const uploadPostToServer = async () => {
+    const photo = await uploadPhotoToServer();
+    const createPost = await db
+      .firestore()
+      .collection("posts")
+      .add({ photo, comment, location: location.coords, userId, nickname });
+  };
+
+  const uploadPhotoToServer = async () => {
+    const response = await fetch(photo);
+    const file = await response.blob();
+
+    const uniquePostId = Date.now().toString();
+    
+    await db.storage().ref(`postImage/${uniquePostId}`).put(file);
+
+    const processedPhoto = await db
+      .storage()
+      .ref("postImage")
+      .child(uniquePostId)
+      .getDownloadURL();
+
+    return processedPhoto;
+
+    };
 
   return (
     <View style={styles.container}>
@@ -64,16 +98,13 @@ const CreateScreen = ({ navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Название"
-            value={""}
-            onChangeText={""}
+            onChangeText={setComment}
           />
         </View>
         <View style={{ marginBottom: 32 }}>
           <TextInput
             style={styles.input}
             placeholder="Местность"
-            value={""}
-            onChangeText={""}
           />
         </View>
         <TouchableOpacity style={styles.submitBtn} onPress={sendPhoto}>
