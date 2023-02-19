@@ -3,7 +3,6 @@ import "firebase/auth";
 import "firebase/storage";
 import "firebase/firestore";
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyBXyyGmlL9c9yT_eUP7cO_LNPFn4tyP0GU",
   authDomain: "react-native-app-social.firebaseapp.com",
@@ -15,3 +14,4 @@ const firebaseConfig = {
 };
 
 export default firebase.initializeApp(firebaseConfig);
+

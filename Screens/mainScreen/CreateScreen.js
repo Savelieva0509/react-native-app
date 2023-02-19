@@ -46,33 +46,44 @@ const CreateScreen = ({ navigation }) => {
 
   const sendPhoto = () => {
     uploadPostToServer();
-    navigation.navigate("Home", { photo });
+    navigation.navigate("Home");
   };
 
   const uploadPostToServer = async () => {
-    const photo = await uploadPhotoToServer();
-    const createPost = await db
-      .firestore()
-      .collection("posts")
-      .add({ photo, comment, location: location.coords, userId, nickname });
+    try {
+      const photo = await uploadPhotoToServer();
+      const createPost = await db
+        .firestore()
+        .collection("posts")
+        .add({ photo, comment, location: location.coords, userId, nickname });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const uploadPhotoToServer = async () => {
+
     const response = await fetch(photo);
     const file = await response.blob();
 
     const uniquePostId = Date.now().toString();
 
-    await db.storage().ref(`postImage/${uniquePostId}`).put(file);
+      await db.storage().ref(`postImage/${uniquePostId}`).put(file);
 
-    const processedPhoto = await db
-      .storage()
-      .ref(`postImage`)
-      .child(uniquePostId)
-      .getDownloadURL();
+      const processedPhoto = await db
+        .storage()
+        .ref(`postImage`)
+        .child(uniquePostId)
+        .getDownloadURL();
 
-    return processedPhoto;
-  };
+      return processedPhoto;
+    
+    // const reference = ref(storage, `postImage/${uniquePostId}`)
+    
+    // const processedPhoto = await uploadBytesResumable(reference, file)
+    // await getDownloadURL(processedPhoto.ref)
+    // return processedPhoto
+  }
 
   return (
     <View style={styles.container}>
