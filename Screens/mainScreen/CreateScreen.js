@@ -13,7 +13,7 @@ import {
 import { Camera } from "expo-camera";
 import { Feather } from "@expo/vector-icons";
 import * as Location from "expo-location";
-import db from '../../firebase/config';
+import db from "../../firebase/config";
 
 const CreateScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
@@ -21,7 +21,7 @@ const CreateScreen = ({ navigation }) => {
   const [comment, setComment] = useState("");
   const [location, setLocation] = useState(null);
 
-  const {userId, nickname} = useSelector((state)=> state.auth)
+  const { userId, nickname } = useSelector((state) => state.auth);
 
   useEffect(() => {
     (async () => {
@@ -62,18 +62,17 @@ const CreateScreen = ({ navigation }) => {
     const file = await response.blob();
 
     const uniquePostId = Date.now().toString();
-    
+
     await db.storage().ref(`postImage/${uniquePostId}`).put(file);
 
     const processedPhoto = await db
       .storage()
-      .ref("postImage")
+      .ref(`postImage`)
       .child(uniquePostId)
       .getDownloadURL();
 
     return processedPhoto;
-
-    };
+  };
 
   return (
     <View style={styles.container}>
@@ -102,10 +101,7 @@ const CreateScreen = ({ navigation }) => {
           />
         </View>
         <View style={{ marginBottom: 32 }}>
-          <TextInput
-            style={styles.input}
-            placeholder="Местность"
-          />
+          <TextInput style={styles.input} placeholder="Местность" />
         </View>
         <TouchableOpacity style={styles.submitBtn} onPress={sendPhoto}>
           <Text style={styles.btnText}>Опубликовать</Text>
