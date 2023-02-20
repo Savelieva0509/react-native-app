@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import { Feather } from "@expo/vector-icons";
+// import { EvilIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import db from "../../firebase/config";
 
@@ -20,6 +21,7 @@ const CreateScreen = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
   const [comment, setComment] = useState("");
   const [location, setLocation] = useState(null);
+  // const [locationName, setLocationName] = useState("");
 
   const { userId, nickname } = useSelector((state) => state.auth);
 
@@ -31,8 +33,13 @@ const CreateScreen = ({ navigation }) => {
         return;
       }
 
-      let locationRes = await Location.getCurrentPositionAsync({});
-      setLocation(locationRes);
+      let location = await Location.getCurrentPositionAsync({});
+      console.log("location", location);
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+      setLocation(coords);
     })();
   }, []);
 
@@ -62,28 +69,27 @@ const CreateScreen = ({ navigation }) => {
   };
 
   const uploadPhotoToServer = async () => {
-
     const response = await fetch(photo);
     const file = await response.blob();
 
     const uniquePostId = Date.now().toString();
 
-      await db.storage().ref(`postImage/${uniquePostId}`).put(file);
+    await db.storage().ref(`postImage/${uniquePostId}`).put(file);
 
-      const processedPhoto = await db
-        .storage()
-        .ref(`postImage`)
-        .child(uniquePostId)
-        .getDownloadURL();
+    const processedPhoto = await db
+      .storage()
+      .ref(`postImage`)
+      .child(uniquePostId)
+      .getDownloadURL();
 
-      return processedPhoto;
-    
+    return processedPhoto;
+
     // const reference = ref(storage, `postImage/${uniquePostId}`)
-    
+
     // const processedPhoto = await uploadBytesResumable(reference, file)
     // await getDownloadURL(processedPhoto.ref)
     // return processedPhoto
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -112,7 +118,14 @@ const CreateScreen = ({ navigation }) => {
           />
         </View>
         <View style={{ marginBottom: 32 }}>
-          <TextInput style={styles.input} placeholder="Местность" />
+          {/* <EvilIcons name="location" size={24} color="gray" /> */}
+
+          <TextInput
+            style={styles.input}
+            placeholder="Местность"
+            // value={location}
+            // onChangeText={setLocation}
+          />
         </View>
         <TouchableOpacity style={styles.submitBtn} onPress={sendPhoto}>
           <Text style={styles.btnText}>Опубликовать</Text>
@@ -172,7 +185,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#E8E8E8",
   },
   submitBtn: {
-    backgroundColor: "#F6F6F6",
+    backgroundColor: "#FF6C00",
     borderRadius: 100,
     height: 51,
     alignItems: "center",
@@ -182,7 +195,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     fontFamily: "roboto-regular",
-    color: "#BDBDBD",
+    color: "#FFFFFF",
   },
 });
 
