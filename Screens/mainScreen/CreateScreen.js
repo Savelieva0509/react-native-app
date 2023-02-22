@@ -42,9 +42,20 @@ const CreateScreen = ({ navigation }) => {
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
+    console.log(photo.uri);
     setPhoto(photo.uri);
   };
 
+  // const takePhoto = async () => {
+  //     const photo = await camera
+  //       .takePictureAsync()
+  //       .then(setPhoto(photo.uri))
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //        };
+  
+  
   const sendPhoto = () => {
     uploadPostToServer();
     navigation.navigate("Home");
