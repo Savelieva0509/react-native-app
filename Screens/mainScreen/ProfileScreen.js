@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Button, FlatList, Image } from "react-native";
+import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { authSignOutUser } from "../../redux/auth/authOperations";
 import { useDispatch, useSelector } from "react-redux";
 import db from "../../firebase/config";
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [userPosts, setUserPosts] = useState([]);
   const { userId } = useSelector((state) => state.auth);
@@ -29,7 +29,6 @@ const ProfileScreen = ({navigation}) => {
     dispatch(authSignOutUser());
   };
 
-   
   return (
     <View style={styles.container}>
       <MaterialIcons

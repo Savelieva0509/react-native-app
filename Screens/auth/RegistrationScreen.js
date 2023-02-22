@@ -34,7 +34,6 @@ export default function RegistrationScreen({ navigation }) {
   useEffect(() => {
     const onChange = () => {
       const width = Dimensions.get("window").width;
-      console.log(width);
       setDimensions(width);
     };
 
@@ -128,8 +127,6 @@ export default function RegistrationScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   form: {
-    // marginHorizontal: 16,
-    // alignItems: "center",
     backgroundColor: "#FFFFFF",
     paddingTop: 92,
     borderTopRightRadius: 25,

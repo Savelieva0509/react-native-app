@@ -2,9 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
-
 import { MaterialIcons } from "@expo/vector-icons";
-
 import PostsScreen from "./Screens/mainScreen/PostsScreen";
 import ProfileScreen from "./Screens/mainScreen/ProfileScreen";
 import CreateScreen from "./Screens/mainScreen/CreateScreen";

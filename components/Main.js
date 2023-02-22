@@ -12,9 +12,9 @@ const Main = () => {
   useEffect(() => {
     dispatch(authChangeStateUser());
   }, [stateChange]);
-    
+
   const routing = useRoute(stateChange);
-  
+
   return <NavigationContainer>{routing}</NavigationContainer>;
 };
 

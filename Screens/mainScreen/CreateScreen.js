@@ -7,13 +7,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  CameraType,
   TextInput,
   TouchableHighlight,
 } from "react-native";
 import { Camera } from "expo-camera";
 import { Feather } from "@expo/vector-icons";
-// import { EvilIcons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import db from "../../firebase/config";
 
@@ -22,7 +20,6 @@ const CreateScreen = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
   const [comment, setComment] = useState("");
   const [location, setLocation] = useState(null);
-  // const [locationName, setLocationName] = useState("");
 
   const { userId, nickname } = useSelector((state) => state.auth);
 
@@ -35,7 +32,6 @@ const CreateScreen = ({ navigation }) => {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      console.log("location", location);
       const coords = {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
@@ -45,10 +41,7 @@ const CreateScreen = ({ navigation }) => {
   }, []);
 
   const takePhoto = async () => {
-    console.log(comment);
-    console.log(location);
     const photo = await camera.takePictureAsync();
-
     setPhoto(photo.uri);
   };
 
@@ -84,12 +77,6 @@ const CreateScreen = ({ navigation }) => {
       .getDownloadURL();
 
     return processedPhoto;
-
-    // const reference = ref(storage, `postImage/${uniquePostId}`)
-
-    // const processedPhoto = await uploadBytesResumable(reference, file)
-    // await getDownloadURL(processedPhoto.ref)
-    // return processedPhoto
   };
 
   return (
@@ -119,13 +106,9 @@ const CreateScreen = ({ navigation }) => {
           />
         </View>
         <View style={{ marginBottom: 32 }}>
-          {/* <EvilIcons name="location" size={24} color="gray" /> */}
-
           <TextInput
             style={styles.input}
             placeholder="Местность"
-            // value={location}
-            // onChangeText={setLocation}
           />
         </View>
         <TouchableHighlight
@@ -166,8 +149,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     left: 10,
-    // height: 50,
-    // width: 70,
     borderWidth: 1,
     borderColor: "#ffff",
     backgroundColor: "white",

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Button, FlatList, Image } from "react-native";
+import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { useDispatch } from "react-redux";
 import { authSignOutUser } from "../../../redux/auth/authOperations";
 import { EvilIcons } from "@expo/vector-icons";
@@ -22,9 +22,9 @@ const Home = ({ route, navigation }) => {
     getAllPost();
   }, [route.params]);
 
-    const signOut = () => {
-      dispatch(authSignOutUser());
-    };
+  const signOut = () => {
+    dispatch(authSignOutUser());
+  };
 
   return (
     <View style={styles.container}>
@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     marginHorizontal: 16,
-    // alignItems: "center",
   },
   postWrapper: {
     marginBottom: 32,

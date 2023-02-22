@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, Button, FlatList, Image } from "react-native";
-import MapView, {Marker} from "react-native-maps";
+import { View, StyleSheet } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 
 const MapScreen = ({ route }) => {
   console.log(route.params.location);
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     marginHorizontal: 8,
-    // alignItems: "center",
   },
 });
 

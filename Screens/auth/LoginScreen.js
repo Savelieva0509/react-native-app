@@ -1,4 +1,4 @@
-import { useState, useEffect, setstate } from "react";
+import { useState, useEffect } from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -22,7 +22,6 @@ const initialState = {
 };
 
 export default function LoginScreen({ navigation }) {
-  console.log(navigation);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setstate] = useState(initialState);
   const [dimensions, setDimensions] = useState(
@@ -43,21 +42,12 @@ export default function LoginScreen({ navigation }) {
     };
   }, []);
 
-  // const [nickname, setNickname] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [email, setEmail] = useState("");
-
-  
-
   const handleSubmit = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
     setstate(initialState);
-    dispatch(authSignInUser(state))
-  
+    dispatch(authSignInUser(state));
   };
-
-  
 
   const onClose = () => {
     Keyboard.dismiss();
@@ -129,8 +119,6 @@ export default function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   form: {
-    // marginHorizontal: 16,
-    // alignItems: "center",
     backgroundColor: "#FFFFFF",
     paddingTop: 92,
     borderTopRightRadius: 25,
