@@ -1,9 +1,9 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { AntDesign } from '@expo/vector-icons'; 
-import { Ionicons } from '@expo/vector-icons'; 
-import { MaterialIcons } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
+
+import { MaterialIcons } from "@expo/vector-icons";
 
 import PostsScreen from "./Screens/mainScreen/PostsScreen";
 import ProfileScreen from "./Screens/mainScreen/ProfileScreen";
@@ -34,7 +34,19 @@ export const useRoute = (isAuth) => {
   }
 
   return (
-    <MainTab.Navigator screenOptions={{ showLabel: false }}>
+    <MainTab.Navigator
+      screenOptions={{
+        showLabel: false,
+        tabBarActiveTintColor: "#FF6C00",
+        tabBarInactiveTintColor: "grey",
+        tabBarStyle: [
+          {
+            display: "flex",
+          },
+          null,
+        ],
+      }}
+    >
       <MainTab.Screen
         options={{
           tabBarIcon: ({ focused, size, color }) => (

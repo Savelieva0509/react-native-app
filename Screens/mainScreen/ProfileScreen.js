@@ -37,7 +37,7 @@ const ProfileScreen = ({navigation}) => {
         size={32}
         color="gray"
         onPress={signOut}
-        style={{ marginBottom: 32}}
+        style={{ marginBottom: 32 }}
       />
       <View style={styles.container}>
         <FlatList
@@ -57,8 +57,8 @@ const ProfileScreen = ({navigation}) => {
                       })
                     }
                     name="comment"
-                    size={24}
-                    color="grey"
+                    size={32}
+                    color="#FF6C00"
                   />
                 </View>
                 <View
@@ -68,7 +68,7 @@ const ProfileScreen = ({navigation}) => {
                     justifyContent: "flex-end",
                   }}
                 >
-                  <EvilIcons name="location" size={24} color="grey" />
+                  <EvilIcons name="location" size={32} color="#FF6C00" />
                   <Text
                     onPress={() =>
                       navigation.navigate("Map", { location: item.location })

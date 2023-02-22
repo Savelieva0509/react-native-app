@@ -9,6 +9,7 @@ import {
   Image,
   CameraType,
   TextInput,
+  TouchableHighlight,
 } from "react-native";
 import { Camera } from "expo-camera";
 import { Feather } from "@expo/vector-icons";
@@ -127,9 +128,13 @@ const CreateScreen = ({ navigation }) => {
             // onChangeText={setLocation}
           />
         </View>
-        <TouchableOpacity style={styles.submitBtn} onPress={sendPhoto}>
+        <TouchableHighlight
+          style={styles.submitBtn}
+          onPress={sendPhoto}
+          underlayColor="#FF6C00"
+        >
           <Text style={styles.btnText}>Опубликовать</Text>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </View>
     </View>
   );
@@ -185,7 +190,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#E8E8E8",
   },
   submitBtn: {
-    backgroundColor: "#FF6C00",
+    backgroundColor: "#BDBDBD",
     borderRadius: 100,
     height: 51,
     alignItems: "center",

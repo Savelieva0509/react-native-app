@@ -46,8 +46,8 @@ const Home = ({ route, navigation }) => {
               <View>
                 <EvilIcons
                   name="comment"
-                  size={24}
-                  color="grey"
+                  size={32}
+                  color="#FF6C00"
                   onPress={() =>
                     navigation.navigate("Comments", { postId: item.id })
                   }
@@ -56,8 +56,8 @@ const Home = ({ route, navigation }) => {
               <View>
                 <EvilIcons
                   name="location"
-                  size={24}
-                  color="grey"
+                  size={32}
+                  color="#FF6C00"
                   onPress={() =>
                     navigation.navigate("Map", { location: item.location })
                   }
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    marginHorizontal: 8,
+    marginHorizontal: 16,
     // alignItems: "center",
   },
   postWrapper: {
