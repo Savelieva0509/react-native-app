@@ -17,6 +17,7 @@ import db from "../../firebase/config";
 
 const CreateScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
+  const [startcamera, setStartCamera] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [comment, setComment] = useState("");
   const [location, setLocation] = useState(null);
@@ -40,22 +41,23 @@ const CreateScreen = ({ navigation }) => {
     })();
   }, []);
 
+
+    const startCamera = async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      if (status === "granted") {
+        setStartCamera(true);
+      } else {
+        Alert.alert("Access denied");
+      }
+    };
+
   const takePhoto = async () => {
+    if (!camera) return;
     const photo = await camera.takePictureAsync();
-    console.log(photo.uri);
     setPhoto(photo.uri);
   };
+  
 
-  // const takePhoto = async () => {
-  //     const photo = await camera
-  //       .takePictureAsync()
-  //       .then(setPhoto(photo.uri))
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //        };
-  
-  
   const sendPhoto = () => {
     uploadPostToServer();
     navigation.navigate("Home");

@@ -1,36 +1,48 @@
-import React, { useState } from "react";
-import {} from "react-native";
-
+import React, { useState, useEffect, useCallback } from "react";
+import { View } from "react-native";
+import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
-import AppLoading from "expo-app-loading";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import Main from "./components/Main";
 
-const loadApplication = async () => {
-  await Font.loadAsync({
-    "roboto-regular": require("./fonts/Roboto-Regular.ttf"),
-    "roboto-bold": require("./fonts/Roboto-Bold.ttf"),
-    "roboto-medium": require("./fonts/Roboto-Medium.ttf"),
-  });
-};
+// SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [isReady, setIsReady] = useState(false);
-  
-  if (!isReady) {
-    return (
-      <AppLoading
-        startAsync={loadApplication}
-        onFinish={() => setIsReady(true)}
-        onError={console.warn}
-      />
-    );
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Font.loadAsync({
+          "roboto-regular": require("./fonts/Roboto-Regular.ttf"),
+          "roboto-bold": require("./fonts/Roboto-Bold.ttf"),
+          "roboto-medium": require("./fonts/Roboto-Medium.ttf"),
+        });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
   }
 
   return (
     <Provider store={store}>
-      <Main />
+      <Main onLayout={onLayoutRootView} />
     </Provider>
   );
 }
