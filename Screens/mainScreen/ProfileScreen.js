@@ -67,14 +67,14 @@ const ProfileScreen = ({ navigation }) => {
                     justifyContent: "flex-end",
                   }}
                 >
-                  <EvilIcons name="location" size={32} color="#FF6C00" />
-                  <Text
+                  <EvilIcons
+                    name="location"
+                    size={32}
+                    color="#FF6C00"
                     onPress={() =>
                       navigation.navigate("Map", { location: item.location })
                     }
-                  >
-                    {item.locationName}
-                  </Text>
+                  />
                 </View>
               </View>
             </View>

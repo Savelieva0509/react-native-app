@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { useSelector } from "react-redux";
 import db from "../../../firebase/config";
@@ -14,6 +15,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 const CommentsScreen = ({ route }) => {
   const { postId } = route.params;
+  const photo = route.params.photo;
   const [comment, setComment] = useState("");
   const [allComments, setAllComments] = useState([]);
   const { nickname } = useSelector((state) => state.auth);
@@ -43,12 +45,15 @@ const CommentsScreen = ({ route }) => {
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.container}>
+        <Image source={{ uri: photo }} style={styles.image} />
         <FlatList
           data={allComments}
           renderItem={({ item }) => (
             <View>
-              <Text>{item.nickname}</Text>
-              <Text>{item.comment}</Text>
+              <Text style={styles.author}>{item.nickname}</Text>
+              <View style={styles.commentsField}>
+                <Text style={styles.comment}>{item.comment}</Text>
+              </View>
             </View>
           )}
           keyExtractor={(item) => item.id}
@@ -74,6 +79,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     flex: 1,
     justifyContent: "space-between",
+    padding: 16,
+
   },
 
   input: {
@@ -85,9 +92,9 @@ const styles = StyleSheet.create({
 
   form: {
     position: "relative",
-    marginHorizontal: 16,
     marginBottom: 16,
   },
+
   button: {
     position: "absolute",
     right: 10,
@@ -97,20 +104,20 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: "#FF6C00",
   },
-  author: {
-    fontFamily: "roboto-bold",
-  },
-  comment: {
-    backgroundColor: "rgba(0, 0, 0, 0.03)",
+
+  commentsField: {
+    marginBottom: 24,
+    backgroundColor: "#F6F6F6",
+    padding: 16,
     minHeight: 30,
     justifyContent: "center",
   },
-  commentsField: {
+
+  author: {
+    fontFamily: "roboto-bold",
     marginBottom: 24,
-    borderColor: "#000",
-    borderWidth: 1,
-    padding: 5,
   },
+  
   image: {
     marginBottom: 32,
     height: 240,

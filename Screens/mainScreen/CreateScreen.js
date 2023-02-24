@@ -29,21 +29,17 @@ const CreateScreen = ({ navigation }) => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         console.log("Permission to access location was denied");
-        return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      const coords = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      };
-      setLocation(coords);
+      let locationRes = await Location.getCurrentPositionAsync({});
+      setLocation(locationRes);
     })();
   }, []);
 
 
+
     const startCamera = async () => {
-      const { status } = await Camera.requestPermissionsAsync();
+      const { status } = await Camera.requestForegroundPermissionsAsync();
       if (status === "granted") {
         setStartCamera(true);
       } else {
