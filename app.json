@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "myNewProject",
-    "slug": "myNewProject",
+    "name": "react-native-app-social",
+    "slug": "react-native-app-social",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
