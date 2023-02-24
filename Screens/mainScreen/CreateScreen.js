@@ -21,6 +21,7 @@ const CreateScreen = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
   const [comment, setComment] = useState("");
   const [location, setLocation] = useState(null);
+  const [locationName, setLocationName] = useState("");
 
   const { userId, nickname } = useSelector((state) => state.auth);
 
@@ -36,40 +37,49 @@ const CreateScreen = ({ navigation }) => {
     })();
   }, []);
 
-
-
-    const startCamera = async () => {
-      const { status } = await Camera.requestForegroundPermissionsAsync();
-      if (status === "granted") {
-        setStartCamera(true);
-      } else {
-        Alert.alert("Access denied");
-      }
-    };
+  const startCamera = async () => {
+    const { status } = await Camera.requestForegroundPermissionsAsync();
+    if (status === "granted") {
+      setStartCamera(true);
+    } else {
+      Alert.alert("Access denied");
+    }
+  };
 
   const takePhoto = async () => {
     if (!camera) return;
     const photo = await camera.takePictureAsync();
     setPhoto(photo.uri);
   };
-  
+
+   const reset = () => {
+       setLocationName("");
+       setComment("");
+       setPhoto(null);
+     };
 
   const sendPhoto = () => {
     uploadPostToServer();
     navigation.navigate("Home");
+    reset();
   };
 
+  
   const uploadPostToServer = async () => {
     try {
       const photo = await uploadPhotoToServer();
       const createPost = await db
         .firestore()
         .collection("posts")
-        .add({ photo, comment, location: location.coords, userId, nickname });
+        .add({ photo, comment, location: location.coords, userId, nickname, locationName });
     } catch (error) {
       console.log(error);
     }
+   
   };
+
+ 
+
 
   const uploadPhotoToServer = async () => {
     const response = await fetch(photo);
@@ -88,6 +98,7 @@ const CreateScreen = ({ navigation }) => {
     return processedPhoto;
   };
 
+  
   return (
     <View style={styles.container}>
       <Camera style={styles.camera} ref={setCamera}>
@@ -111,6 +122,7 @@ const CreateScreen = ({ navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Название"
+            value={comment}
             onChangeText={setComment}
           />
         </View>
@@ -118,6 +130,8 @@ const CreateScreen = ({ navigation }) => {
           <TextInput
             style={styles.input}
             placeholder="Местность"
+            value={locationName}
+            onChangeText={setLocationName}
           />
         </View>
         <TouchableHighlight

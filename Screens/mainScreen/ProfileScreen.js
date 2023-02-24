@@ -45,7 +45,7 @@ const ProfileScreen = ({ navigation }) => {
           renderItem={({ item }) => (
             <View style={styles.postWrapper}>
               <Image source={{ uri: item.photo }} style={styles.photo} />
-              <Text style={styles.name}>{item.name}</Text>
+              <Text style={styles.name}>{item.comment}</Text>
               <View style={{ flex: 1, flexDirection: "row" }}>
                 <View>
                   <EvilIcons
@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     marginHorizontal: 8,
-    // alignItems: "center",
   },
   postWrapper: {
     marginBottom: 32,

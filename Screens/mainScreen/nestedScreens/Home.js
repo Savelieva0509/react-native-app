@@ -37,23 +37,33 @@ const Home = ({ route, navigation }) => {
       />
       <FlatList
         data={posts}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.postWrapper}>
             <Image source={{ uri: item.photo }} style={styles.photo} />
-            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.name}>{item.comment}</Text>
             <View style={{ flex: 1, flexDirection: "row" }}>
               <View>
                 <EvilIcons
+                  onPress={() =>
+                    navigation.navigate("Comments", {
+                      postId: item.id,
+                      photo: item.photo,
+                    })
+                  }
                   name="comment"
                   size={32}
                   color="#FF6C00"
-                  onPress={() =>
-                    navigation.navigate("Comments", { postId: item.id })
-                  }
                 />
               </View>
-              <View>
+             
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                }}
+              >
                 <EvilIcons
                   name="location"
                   size={32}
@@ -62,7 +72,7 @@ const Home = ({ route, navigation }) => {
                     navigation.navigate("Map", { location: item.location })
                   }
                 />
-                <Text></Text>
+                <Text>{item.locationName}</Text>
               </View>
             </View>
           </View>
@@ -86,6 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 8,
   },
+
   name: {
     fontSize: 16,
     lineHeight: 19,
