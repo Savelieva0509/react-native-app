@@ -75,6 +75,7 @@ const ProfileScreen = ({ navigation }) => {
                       navigation.navigate("Map", { location: item.location })
                     }
                   />
+                  <Text>{item.locationName}</Text>
                 </View>
               </View>
             </View>
