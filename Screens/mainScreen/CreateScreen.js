@@ -52,11 +52,11 @@ const CreateScreen = ({ navigation }) => {
     setPhoto(photo.uri);
   };
 
-   const reset = () => {
-       setLocationName("");
-       setComment("");
-       setPhoto(null);
-     };
+  const reset = () => {
+    setLocationName("");
+    setComment("");
+    setPhoto(null);
+  };
 
   const sendPhoto = () => {
     uploadPostToServer();
@@ -64,22 +64,24 @@ const CreateScreen = ({ navigation }) => {
     reset();
   };
 
-  
   const uploadPostToServer = async () => {
     try {
       const photo = await uploadPhotoToServer();
       const createPost = await db
         .firestore()
         .collection("posts")
-        .add({ photo, comment, location: location.coords, userId, nickname, locationName });
+        .add({
+          photo,
+          comment,
+          location: location.coords,
+          userId,
+          nickname,
+          locationName,
+        });
     } catch (error) {
       console.log(error);
     }
-   
   };
-
- 
-
 
   const uploadPhotoToServer = async () => {
     const response = await fetch(photo);
@@ -98,7 +100,6 @@ const CreateScreen = ({ navigation }) => {
     return processedPhoto;
   };
 
-  
   return (
     <View style={styles.container}>
       <Camera style={styles.camera} ref={setCamera}>
